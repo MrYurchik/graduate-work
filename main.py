@@ -11,7 +11,8 @@ from folium.plugins import LocateControl
 from folium import plugins
 
 app = Flask(__name__)
-m = folium.Map(height="100%", location=(49.8355433005462, 24.014393882782368), zoom_start=17)
+f = folium.Figure(width="100%", height="100%")
+m = folium.Map(location=(49.8355433005462, 24.014393882782368), zoom_start=17).add_to(f)
 color_list = ['beige', 'lightblue', 'darkred', 'lightred', 'black', 'darkblue', 'darkgreen', 'orange', 'lightgray',
               'lightgreen', 'green', 'darkpurple', 'purple', 'white', 'cadetblue', 'gray', 'blue', 'pink', 'red']
 
