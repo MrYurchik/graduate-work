@@ -100,12 +100,7 @@ def build_desc():
 
 @app.route('/')
 def base():
-    leson_numb = time_parse()
-    schedule_for_today = get_schedule()
-    schedule_for_now = online_schedule(schedule_for_today, leson_numb)
-    build_geo = get_geo(schedule_for_now)
-    build_desc()
-    gen_map(build_geo)
+
     # enableHighAccuracy = True
     LocateControl().add_to(m)
     # # https://github.com/domoritz/leaflet-locatecontrol#how-do-i-enable-high-accuracy
@@ -115,4 +110,10 @@ def base():
 
 
 if __name__ == '__main__':
+    leson_numb = time_parse()
+    schedule_for_today = get_schedule()
+    schedule_for_now = online_schedule(schedule_for_today, leson_numb)
+    build_geo = get_geo(schedule_for_now)
+    build_desc()
+    gen_map(build_geo)
     app.run(debug=True)
