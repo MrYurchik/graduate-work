@@ -14,7 +14,7 @@ app = Flask(__name__)
 f = folium.Figure(width="100%", height="100%")
 m = folium.Map(location=(49.8355433005462, 24.014393882782368), zoom_start=17).add_to(f)
 color_list = ['beige', 'lightblue', 'darkred', 'lightred', 'black', 'darkblue', 'darkgreen', 'orange', 'lightgray',
-              'lightgreen', 'green', 'darkpurple', 'purple', 'white', 'cadetblue', 'gray', 'blue', 'pink', 'red']
+              'lightgreen', 'green', 'darkpurple', 'purple', 'cadetblue', 'gray', 'blue', 'pink', 'red']
 
 now = datetime.datetime.now()
 
@@ -85,7 +85,6 @@ def gen_map(build_geo):
         ).add_to(m)
 
     folium.LayerControl(collapsed=False).add_to(m)
-    m.save("index.html")
 
 
 def build_desc():
@@ -107,9 +106,11 @@ def base():
     build_geo = get_geo(schedule_for_now)
     build_desc()
     gen_map(build_geo)
-    # LocateControl(enableHighAccuracy=True).add_to(m)
+
+    LocateControl(enableHighAccuracy=True).add_to(m)
     # # https://github.com/domoritz/leaflet-locatecontrol#how-do-i-enable-high-accuracy
     # # ????????????????????????????????????????????
+    m.save("index.html")
     return m._repr_html_()
 
 
