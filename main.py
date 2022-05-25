@@ -99,15 +99,6 @@ def build_desc():
         ).add_to(m)
 
 
-@app.route('/setup')
-def setup():
-    leson_numb = time_parse()
-    schedule_for_today = get_schedule()
-    schedule_for_now = online_schedule(schedule_for_today, leson_numb)
-    build_geo = get_geo(schedule_for_now)
-    build_desc()
-    gen_map(build_geo)
-
 @app.route('/')
 def base():
 
@@ -119,4 +110,10 @@ def base():
 
 
 if __name__ == '__main__':
+    leson_numb = time_parse()
+    schedule_for_today = get_schedule()
+    schedule_for_now = online_schedule(schedule_for_today, leson_numb)
+    build_geo = get_geo(schedule_for_now)
+    build_desc()
+    gen_map(build_geo)
     app.run(debug=True)
