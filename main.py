@@ -100,20 +100,17 @@ def build_desc():
 
 @app.route('/')
 def base():
-    # # Create a map using the Map() function and the coordinates for Boulder, CO
-
-    # m.add_child(folium.LayerControl())
-    LocateControl(enableHighAccuracy=True).add_to(m)
-    # https://github.com/domoritz/leaflet-locatecontrol#how-do-i-enable-high-accuracy
-    # ????????????????????????????????????????????
-    return m._repr_html_()
-
-
-if __name__ == '__main__':
     leson_numb = time_parse()
     schedule_for_today = get_schedule()
     schedule_for_now = online_schedule(schedule_for_today, leson_numb)
     build_geo = get_geo(schedule_for_now)
     build_desc()
     gen_map(build_geo)
+    # LocateControl(enableHighAccuracy=True).add_to(m)
+    # # https://github.com/domoritz/leaflet-locatecontrol#how-do-i-enable-high-accuracy
+    # # ????????????????????????????????????????????
+    return m._repr_html_()
+
+
+if __name__ == '__main__':
     app.run(debug=True)
