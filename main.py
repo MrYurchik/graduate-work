@@ -98,10 +98,16 @@ def build_desc():
             icon=folium.Icon(color=random.choice(color_list), icon="info-sign"),
         ).add_to(m)
 
+def main():
+    leson_numb = time_parse()
+    schedule_for_today = get_schedule()
+    schedule_for_now = online_schedule(schedule_for_today, leson_numb)
+    build_geo = get_geo(schedule_for_now)
+    build_desc()
+    gen_map(build_geo)
 
 @app.route('/')
 def base():
-
     # enableHighAccuracy = True
     # # https://github.com/domoritz/leaflet-locatecontrol#how-do-i-enable-high-accuracy
     # # ????????????????????????????????????????????
@@ -110,10 +116,5 @@ def base():
 
 
 if __name__ == '__main__':
-    leson_numb = time_parse()
-    schedule_for_today = get_schedule()
-    schedule_for_now = online_schedule(schedule_for_today, leson_numb)
-    build_geo = get_geo(schedule_for_now)
-    build_desc()
-    gen_map(build_geo)
+    main()
     app.run(debug=True)
