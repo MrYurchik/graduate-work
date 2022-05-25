@@ -13,6 +13,7 @@ from folium import plugins
 app = Flask(__name__)
 f = folium.Figure(width="100%", height="100%")
 m = folium.Map(location=(49.8355433005462, 24.014393882782368), zoom_start=17).add_to(f)
+LocateControl().add_to(m)
 color_list = ['beige', 'lightblue', 'darkred', 'lightred', 'black', 'darkblue', 'darkgreen', 'orange', 'lightgray',
               'lightgreen', 'green', 'darkpurple', 'purple', 'cadetblue', 'gray', 'blue', 'pink', 'red']
 
@@ -98,11 +99,19 @@ def build_desc():
         ).add_to(m)
 
 
+@app.route('/setup')
+def setup():
+    leson_numb = time_parse()
+    schedule_for_today = get_schedule()
+    schedule_for_now = online_schedule(schedule_for_today, leson_numb)
+    build_geo = get_geo(schedule_for_now)
+    build_desc()
+    gen_map(build_geo)
+
 @app.route('/')
 def base():
 
     # enableHighAccuracy = True
-    LocateControl().add_to(m)
     # # https://github.com/domoritz/leaflet-locatecontrol#how-do-i-enable-high-accuracy
     # # ????????????????????????????????????????????
     m.save("index.html")
@@ -110,10 +119,4 @@ def base():
 
 
 if __name__ == '__main__':
-    leson_numb = time_parse()
-    schedule_for_today = get_schedule()
-    schedule_for_now = online_schedule(schedule_for_today, leson_numb)
-    build_geo = get_geo(schedule_for_now)
-    build_desc()
-    gen_map(build_geo)
     app.run(debug=True)
