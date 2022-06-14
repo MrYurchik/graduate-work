@@ -89,12 +89,43 @@ def gen_map(build_geo):
 
 
 def build_desc():
+    with open("kafedri.json", encoding="UTF-8") as file:
+        all_department = json.loads(file.read())
     with open("buildings.json", encoding="UTF-8") as file:
         buildings = json.loads(file.read())
     for item in buildings["all_buildings"]:
+        department = [f"""<li>' <a href="{i['title']}">{i['title']} - {i['desc']}</a> '</li>'""" for i in
+                      all_department if i['build'] == str(item['numb'])]
+        department = ''.join(department)
         folium.Marker(
             location=item["cord"],
-            popup=f"Національний університет 'Львівська Політехніка \n Навчальний корпус №{item['numb']}' \n {item['popup']}",
+            popup="""
+<!DOCTYPE html>
+<title>Text Description</title>
+<style>
+div.container {
+background-color: #F0F8FF;
+}
+div.container p {
+font-family: Arial;
+font-size: 14px;
+font-style: normal;
+font-weight: normal;
+text-decoration: none;
+text-transform: none;
+color: #000000;
+background-color: #F0F8FF;
+}
+</style>
+
+<div class="container">
+<h3>Навчальний корпус № %s</h3>
+<h4>%s</h4>
+<h3>Кафедри у цьому корпусі:</h3>
+<ul>
+    %s
+</ul>
+</div>""" % (item['numb'], item['popup'], department),
             icon=folium.Icon(color=random.choice(color_list), icon="info-sign"),
         ).add_to(m)
 
@@ -106,6 +137,7 @@ build_geo = get_geo(schedule_for_now)
 build_desc()
 gen_map(build_geo)
 
+
 @app.route('/')
 def base():
     m.save("index.html")
@@ -115,9 +147,3 @@ def base():
 if __name__ == '__main__':
     app.run(debug=True)
 
-
-
-
-    # enableHighAccuracy = True
-    # # https://github.com/domoritz/leaflet-locatecontrol#how-do-i-enable-high-accuracy
-    # # ????????????????????????????????????????????
